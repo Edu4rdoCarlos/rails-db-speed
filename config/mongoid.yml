@@ -1,0 +1,27 @@
+development:
+  clients:
+    default:
+      database: library_mongo_development
+      hosts:
+        - mongo:27017
+      options:
+        server_selection_timeout: 5
+        max_pool_size: 5
+
+test:
+  clients:
+    default:
+      database: library_mongo_test
+      hosts:
+        - mongo:27017
+      options:
+        server_selection_timeout: 5
+
+production:
+  clients:
+    default:
+      database: library_mongo_production
+      hosts:
+        - mongo:27017
+      options:
+        server_selection_timeout: 5

@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: db
+  username: postgres
+  password: postgres
+
+development:
+  <<: *default
+  database: library_rails_development
+
+test:
+  <<: *default
+  database: library_rails_test
+
+production:
+  <<: *default
+  database: library_rails_production
+  username: postgres
+  password: <%= ENV['DATABASE_PASSWORD'] %>
