@@ -4,17 +4,17 @@ module Mongo
       reviews = book_id ? Book.find(book_id).reviews : Review.all
       reviews
     rescue StandardError => e
-      Rails.logger.error("Erro ao listar reviews Mongo: #{e.message}")
+      Rails.logger.error("Error listing MongoDB reviews: #{e.message}")
       raise e
     end
 
     def self.find(id)
       Review.find(id)
     rescue Mongoid::Errors::DocumentNotFound => e
-      Rails.logger.error("Review não encontrada: #{e.message}")
+      Rails.logger.error("Review not found: #{e.message}")
       raise e
     rescue StandardError => e
-      Rails.logger.error("Erro ao buscar review: #{e.message}")
+      Rails.logger.error("Error finding review: #{e.message}")
       raise e
     end
 
@@ -26,7 +26,7 @@ module Mongo
         raise Mongoid::Errors::Validations.new(review)
       end
     rescue StandardError => e
-      Rails.logger.error("Erro ao criar review: #{e.message}")
+      Rails.logger.error("Error creating review: #{e.message}")
       raise e
     end
 
@@ -38,7 +38,7 @@ module Mongo
         raise Mongoid::Errors::Validations.new(review)
       end
     rescue StandardError => e
-      Rails.logger.error("Erro ao atualizar review: #{e.message}")
+      Rails.logger.error("Error updating review: #{e.message}")
       raise e
     end
 
@@ -46,7 +46,7 @@ module Mongo
       review = Review.find(id)
       review.destroy
     rescue StandardError => e
-      Rails.logger.error("Erro ao deletar review: #{e.message}")
+      Rails.logger.error("Error deleting review: #{e.message}")
       raise e
     end
   end

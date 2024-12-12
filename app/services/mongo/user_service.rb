@@ -3,17 +3,17 @@ module Mongo
     def self.list_all
       User.all
     rescue StandardError => e
-      Rails.logger.error("Erro ao listar usuários Mongo: #{e.message}")
+      Rails.logger.error("Error listing MongoDB users: #{e.message}")
       raise e
     end
 
     def self.find(id)
       User.find(id)
     rescue Mongoid::Errors::DocumentNotFound => e
-      Rails.logger.error("Usuário não encontrado: #{e.message}")
+      Rails.logger.error("User not found: #{e.message}")
       raise e
     rescue StandardError => e
-      Rails.logger.error("Erro ao buscar usuário: #{e.message}")
+      Rails.logger.error("Error finding user: #{e.message}")
       raise e
     end
 
@@ -25,7 +25,7 @@ module Mongo
         raise Mongoid::Errors::Validations.new(user)
       end
     rescue StandardError => e
-      Rails.logger.error("Erro ao criar usuário: #{e.message}")
+      Rails.logger.error("Error creating user: #{e.message}")
       raise e
     end
 
@@ -37,7 +37,7 @@ module Mongo
         raise Mongoid::Errors::Validations.new(user)
       end
     rescue StandardError => e
-      Rails.logger.error("Erro ao atualizar usuário: #{e.message}")
+      Rails.logger.error("Error updating user: #{e.message}")
       raise e
     end
 
@@ -45,7 +45,7 @@ module Mongo
       user = User.find(id)
       user.destroy
     rescue StandardError => e
-      Rails.logger.error("Erro ao deletar usuário: #{e.message}")
+      Rails.logger.error("Error deleting user: #{e.message}")
       raise e
     end
   end

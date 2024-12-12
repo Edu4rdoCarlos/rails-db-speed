@@ -2,7 +2,7 @@ module Postgres
   class User < Postgres::ApplicationRecord
     self.table_name = 'postgres_users'
     
-    # Campos definidos na migração:
+    # Fields defined in migration:
     # t.string :name, null: false
     # t.string :email, null: false
     # t.string :preferences, array: true, default: []

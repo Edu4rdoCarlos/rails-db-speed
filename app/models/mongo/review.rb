@@ -3,21 +3,21 @@ module Mongo
     include Mongoid::Document
     include Mongoid::Timestamps
 
-    # Campos básicos
+    # Basic fields
     field :rating, type: Integer
     field :comment, type: String
 
-    # Referências
+    # References
     belongs_to :user, class_name: 'Mongo::User'
     belongs_to :book, class_name: 'Mongo::Book'
 
-    # Validações
+    # Validations
     validates :rating, presence: true, inclusion: { in: 1..10 }
     validates :comment, presence: true
     validates :user, presence: true
     validates :book, presence: true
 
-    # Callbacks para atualizar as estatísticas do livro
+    # Callbacks to update book statistics
     after_save :update_book_stats
     after_destroy :update_book_stats
 

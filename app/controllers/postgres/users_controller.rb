@@ -1,18 +1,24 @@
 module Postgres
   class UsersController < Postgres::ApplicationController
     def index
-      users = Postgres::UserService.list_all
+      start_time = Time.current
+      Rails.logger.info "Fetching users from PostgreSQL"
+      fetch_start = Time.current
+      users = UserService.list_all
+      Rails.logger.info "PostgreSQL fetch time: #{(Time.current - fetch_start).round(2)}s"
+      Rails.logger.info "Total time: #{(Time.current - start_time).round(2)}s"
+      Rails.logger.info "Returning #{users.count} users"
       render json: users, status: :ok
     rescue StandardError => e
       render json: { error: e.message }, status: :internal_server_error
     end
 
     def show
-      user = Postgres::UserService.find(params[:id])
+      user = UserService.find(params[:id])
       render json: user, status: :ok
-    rescue StandardError => e
-      render json: { error: e.message }, status: :not_found
-    end
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'User not found' }, status: :not_found
+    # ...
 
     def create
       user = Postgres::UserService.create(user_params)

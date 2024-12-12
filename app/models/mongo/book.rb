@@ -3,13 +3,13 @@ module Mongo
     include Mongoid::Document
     include Mongoid::Timestamps
 
-    # Campos
+    # Fields
     field :title, type: String
     field :author, type: String
     field :description, type: String
     field :genre, type: String
 
-    # Subdocumento para estatísticas de avaliações
+    # Ratings statistics subdocument
     field :ratings_summary, type: Hash, default: {
       average_rating: 0.0,
       total_ratings: 0,
@@ -19,10 +19,10 @@ module Mongo
       }
     }
 
-    # Relacionamentos
+    # Relationships
     has_many :reviews, class_name: 'Mongo::Review'
 
-    # Validações
+    # Validations
     validates :title, presence: true
     validates :author, presence: true
 
