@@ -1,26 +1,24 @@
 module Postgres
   class UsersController < Postgres::ApplicationController
     def index
-      users = Postgres::User.all
+      users = Postgres::UserService.list_all
       render json: users, status: :ok
     rescue StandardError => e
       render json: { error: e.message }, status: :internal_server_error
     end
 
     def show
-      user = Postgres::User.find(params[:id])
+      user = Postgres::UserService.find(params[:id])
       render json: user, status: :ok
     rescue StandardError => e
       render json: { error: e.message }, status: :not_found
     end
 
     def create
-      user = Postgres::User.new(user_params)
-      if user.save
-        render json: user, status: :created
-      else
-        render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
-      end
+      user = Postgres::UserService.create(user_params)
+      render json: user, status: :created
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
     rescue StandardError => e
       render json: { error: e.message }, status: :internal_server_error
     end
