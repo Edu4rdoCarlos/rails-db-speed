@@ -9,8 +9,10 @@ services:
     depends_on:
       - db
       - mongo
+      - redis
     environment:
       - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379/1
     tty: true
     stdin_open: true
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -32,6 +34,14 @@ services:
     ports:
       - "27017:27017"
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
 volumes:
   postgres_data:
   mongo_data:
+  redis_data:
