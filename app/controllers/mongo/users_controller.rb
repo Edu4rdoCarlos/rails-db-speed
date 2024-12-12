@@ -1,21 +1,22 @@
-module Postgres
-  class UsersController < Postgres::ApplicationController
+module Mongo
+  class UsersController < ApplicationController
     def index
-      users = Postgres::User.all
+      users = User.all
       render json: users, status: :ok
     rescue StandardError => e
+      Rails.logger.error("Erro ao listar usuários Mongo: #{e.message}")
       render json: { error: e.message }, status: :internal_server_error
     end
 
     def show
-      user = Postgres::User.find(params[:id])
+      user = User.find(params[:id])
       render json: user, status: :ok
     rescue StandardError => e
       render json: { error: e.message }, status: :not_found
     end
 
     def create
-      user = Postgres::User.new(user_params)
+      user = User.new(user_params)
       if user.save
         render json: user, status: :created
       else
@@ -28,7 +29,7 @@ module Postgres
     private
 
     def user_params
-      params.require(:user).permit(:name, :email, preferences: [])
+      params.require(:user).permit(:id, :name, :email, preferences: [])
     end
   end
 end 

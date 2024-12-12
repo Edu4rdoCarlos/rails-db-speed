@@ -4,18 +4,15 @@ services:
     build: .
     ports:
       - "3000:3000"
-      - "3001:3001"
     volumes:
       - .:/app
     depends_on:
       - db
-      - mongo
     environment:
       - RAILS_ENV=development
-      - WEB_CONCURRENCY=2
-      - PORT_3000=3000
-      - PORT_3001=3001
-    command: bundle exec puma -C config/puma.rb
+    tty: true
+    stdin_open: true
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
 
   db:
     image: postgres:13
@@ -27,13 +24,5 @@ services:
     ports:
       - "5432:5432"
 
-  mongo:
-    image: mongo:latest
-    volumes:
-      - mongo_data:/data/db
-    ports:
-      - "27017:27017"
-
 volumes:
   postgres_data:
-  mongo_data:

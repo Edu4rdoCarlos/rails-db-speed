@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  # Rotas para ambos os bancos de dados
-  resources :users
-  resources :books do
+  # Rotas PostgreSQL
+  namespace :postgres do
+    resources :users
+    resources :books do
+      resources :reviews
+    end
     resources :reviews
   end
 end

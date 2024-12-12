@@ -1,2 +1,4 @@
 class ApplicationController < ActionController::Base
-end
+  # Desabilitar proteção CSRF para API
+  skip_before_action :verify_authenticity_token
+end 

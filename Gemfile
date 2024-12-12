@@ -48,6 +48,9 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'pry-rails'      # Para debugging interativo
+  gem 'better_errors'  # Página de erro mais detalhada
+  gem 'binding_of_caller' # Adiciona funcionalidades ao better_errors
 end
 
 group :development, :test do
@@ -74,5 +77,5 @@ end
 
 # Databases
 gem "pg", "~> 1.1"                # PostgreSQL
-gem 'mongoid', '~> 7.3'           # Versão mais estável com Rails 7
-gem 'mongo', '~> 2.17.0'          # Versão compatível com Mongoid 7.3
+
+gem "faker", "~> 3.5"

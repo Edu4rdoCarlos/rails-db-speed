@@ -9,4 +9,4 @@ class CreatePostgresUsers < ActiveRecord::Migration[7.0]
     end
     add_index :postgres_users, :email, unique: true
   end
-end 
+end
