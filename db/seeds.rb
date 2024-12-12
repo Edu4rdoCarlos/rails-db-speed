@@ -86,3 +86,58 @@ puts "\nSeeds concluídos!"
 puts "PostgreSQL - Usuários: #{Postgres::User.count}"
 puts "PostgreSQL - Livros: #{Postgres::Book.count}"
 puts "PostgreSQL - Reviews: #{Postgres::Review.count}"
+
+# Seeds para MongoDB
+puts "\nPopulando MongoDB..."
+
+# Limpar dados MongoDB
+puts "Limpando dados MongoDB..."
+Mongo::Review.delete_all
+Mongo::Book.delete_all
+Mongo::User.delete_all
+
+# Criar usuários MongoDB
+puts "Criando usuários MongoDB..."
+mongo_users = []
+10_000.times do |i|
+  mongo_users << Mongo::User.create!(
+    name: Faker::Name.name,
+    email: Faker::Internet.unique.email,
+    preferences: [
+      Faker::Book.genre,
+      Faker::Book.genre,
+      Faker::Book.genre
+    ].uniq
+  )
+  puts "Criados #{i + 1} usuários MongoDB..." if (i + 1) % 1000 == 0
+end
+
+# Criar livros MongoDB
+puts "\nCriando livros MongoDB..."
+mongo_books = []
+10_000.times do |i|
+  mongo_books << Mongo::Book.create!(
+    title: "#{Faker::Book.title} #{i}",
+    author: Faker::Book.author,
+    description: Faker::Lorem.paragraph(sentence_count: 3),
+    genre: Faker::Book.genre
+  )
+  puts "Criados #{i + 1} livros MongoDB..." if (i + 1) % 1000 == 0
+end
+
+# Criar reviews MongoDB
+puts "\nCriando reviews MongoDB..."
+10_000.times do |i|
+  Mongo::Review.create!(
+    user: mongo_users.sample,
+    book: mongo_books.sample,
+    rating: rand(1..10),
+    comment: Faker::Lorem.paragraph(sentence_count: 2)
+  )
+  puts "Criadas #{i + 1} reviews MongoDB..." if (i + 1) % 1000 == 0
+end
+
+puts "\nSeeds MongoDB concluídos!"
+puts "MongoDB - Usuários: #{Mongo::User.count}"
+puts "MongoDB - Livros: #{Mongo::Book.count}"
+puts "MongoDB - Reviews: #{Mongo::Review.count}"

@@ -79,3 +79,5 @@ end
 gem "pg", "~> 1.1"                # PostgreSQL
 
 gem "faker", "~> 3.5"
+
+gem 'mongoid', '~> 7.5'

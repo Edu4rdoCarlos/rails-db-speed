@@ -7,4 +7,13 @@ Rails.application.routes.draw do
     end
     resources :reviews
   end
+
+  # Rotas MongoDB
+  namespace :mongo do
+    resources :users
+    resources :books do
+      resources :reviews
+    end
+    resources :reviews
+  end
 end
