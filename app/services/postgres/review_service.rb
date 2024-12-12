@@ -1,7 +1,8 @@
 module Postgres
   class ReviewService
-    def self.list_all
-      Review.all
+    def self.list_all(book_id: nil)
+      reviews = book_id ? Review.where(book_id: book_id) : Review.all
+      reviews
     rescue StandardError => e
       Rails.logger.error("Error listing PostgreSQL reviews: #{e.message}")
       raise e

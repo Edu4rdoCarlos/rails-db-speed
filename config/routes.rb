@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     resources :books do
       resources :reviews
     end
-    resources :reviews
+    resources :reviews do
+      collection do
+        get 'top-rated-books', to: 'reviews#top_rated_books'
+      end
+    end
   end
 end

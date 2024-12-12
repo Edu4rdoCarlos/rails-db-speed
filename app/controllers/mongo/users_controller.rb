@@ -19,7 +19,7 @@ module Mongo
     def show
       start_time = Time.current
       user = Rails.cache.fetch("mongo_user_#{params[:id]}", expires_in: 1.hour) do
-        Rails.logger.info "Cache MISS: Fetching user #{params[:id]} from MongoDB"
+        Rails.logger.info "Cache MISS: Fetching user from MongoDB"
         fetch_start = Time.current
         result = UserService.find(params[:id])
         Rails.logger.info "MongoDB fetch time: #{(Time.current - fetch_start).round(2)}s"

@@ -42,6 +42,25 @@ module Mongo
       raise e
     end
 
+    def self.top_rated_books
+      Review.collection.aggregate([
+        { "$match" => { "rating" => { "$gte" => 8.5, "$lte" => 10 } } },  
+        { "$group" => { 
+          "_id" => "$book_id", 
+          "average_rating" => { "$avg" => "$rating" },
+          "total_reviews" => { "$sum" => 1 }
+        }},
+        { "$match" => { "total_reviews" => { "$gte" => 1 } } }, 
+        { "$sort" => { "average_rating" => -1 } },
+      ]).map do |book|
+        {
+          book_id: book["_id"],
+          average_rating: book["average_rating"].round(2),
+          total_reviews: book["total_reviews"]
+        }
+      end
+    end
+
     def self.destroy(id)
       review = Review.find(id)
       review.destroy
@@ -50,4 +69,4 @@ module Mongo
       raise e
     end
   end
-end 
+end
